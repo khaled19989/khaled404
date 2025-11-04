@@ -1,29 +1,40 @@
 {
+  "log": {
+    "loglevel": "debug"
+  },
   "inbounds": [
     {
-      "port": 8080,
-      "protocol": "vless",
+      "listen": "127.0.0.1",
+      "port": "1080",
+      "protocol": "socks",
       "settings": {
-        "clients": [
-          {
-            "id": "khaled-Surfing-ERROR-404",
-            "level": 0
-          }
-        ],
-        "decryption": "none"
-      },
-      "streamSettings": {
-        "network": "ws",
-        "wsSettings": {
-          "path": "/khaledSurfing"
-        }
+        "udp": true
       }
     }
   ],
   "outbounds": [
     {
-      "protocol": "freedom",
-      "settings": {}
+      "protocol": "trojan",
+      "settings": {
+        "servers": [
+          {
+            "address": "example.com",
+            "port": 443,
+            "password": "GCP_OOREDOO_DZ"
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "grpc",
+        "grpcSettings": {
+          "serviceName": "Khaled_surding_grpc"
+        },
+        "security": "tls",
+        "tlsSettings": {
+          "allowInsecure": false,
+          "fingerprint": "chrome"
+        }
+      }
     }
   ]
 }
