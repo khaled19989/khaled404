@@ -20,14 +20,14 @@
           {
             "address": "example.com",
             "port": 443,
-            "password": "GCP_OOREDOO_DZ"
+            "password": "desdemona99"
           }
         ]
       },
       "streamSettings": {
-        "network": "grpc",
-        "grpcSettings": {
-          "serviceName": "Khaled_surding_grpc"
+        "network": "ws",
+        "wsSettings": {
+          "path": "/trojanws?ed=2560"
         },
         "security": "tls",
         "tlsSettings": {
