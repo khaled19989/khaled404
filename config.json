@@ -1,51 +1,28 @@
 {
-  "log": {
-    "loglevel": "warning"
+  "tag": "VMESS GRPC",
+  "listen": "0.0.0.0",
+  "port": 2056,
+  "protocol": "vmess",
+  "settings": {
+    "clients": []
   },
-  "inbounds": [
-    {
-      "port": 8080,
-      "listen": "127.0.0.1",
-      "protocol": "trojan",
-      "settings": {
-        "clients": [
-          {
-            "id": "6ef11447-4783-47b9-9726-0a8da0dd8599",
-			"password": "test"
-          }
-        ],
-        "decryption": "none"
-      },
-      "streamSettings": {
-        "network": "grpc",
-        "grpcSettings": {
-          "serviceName": "/trojanGrpc"
-        }
-      }
-    }
-  ],
-  "outbounds": [
-    {
-      "tag": "direct",
-      "protocol": "freedom",
-      "settings": {}
+  "streamSettings": {
+    "network": "grpc",
+    "grpcSettings": {
+      "serviceName": "/"
     },
-    {
-      "tag": "blocked",
-      "protocol": "blackhole",
-      "settings": {}
+    "security": "tls",
+    "tlsSettings": {
+      "serverName": "SERVER_NAME",
+      "certificates": [
+        {
+          "ocspStapling": 3600,
+          "certificateFile": "/var/lib/marzban/certs/fullchain.pem",
+          "keyFile": "/var/lib/marzban/certs/key.pem"
+        }
+      ],
+      "minVersion": "1.2",
+      "cipherSuites": "TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256:TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256:TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384:TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384:TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256:TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256"
     }
-  ],
-  "routing": {
-    "domainStrategy": "AsIs",
-    "rules": [
-      {
-        "type": "field",
-        "ip": [
-          "geoip:private"
-        ],
-        "outboundTag": "blocked"
-      }
-    ]
   }
 }
