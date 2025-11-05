@@ -1,28 +1,45 @@
 {
-  "tag": "VMESS GRPC",
-  "listen": "0.0.0.0",
-  "port": 2056,
-  "protocol": "vmess",
-  "settings": {
-    "clients": []
-  },
-  "streamSettings": {
-    "network": "grpc",
-    "grpcSettings": {
-      "serviceName": "/"
+    "log": {
+        "loglevel": "warning"
     },
-    "security": "tls",
-    "tlsSettings": {
-      "serverName": "SERVER_NAME",
-      "certificates": [
+    "routing": {
+        "domainStrategy": "AsIs",
+        "rules": [
+            {
+                "type": "field",
+                "ip": [
+                    "geoip:private"
+                ],
+                "outboundTag": "block"
+            }
+        ]
+    },
+    "inbounds": [
         {
-          "ocspStapling": 3600,
-          "certificateFile": "/var/lib/marzban/certs/fullchain.pem",
-          "keyFile": "/var/lib/marzban/certs/key.pem"
+            "listen": "0.0.0.0",
+            "port": 8080,
+            "protocol": "vmess",
+            "settings": {
+                "clients": [
+                    {
+                        "id": ""
+                    }
+                ]
+            },
+            "streamSettings": {
+                "network": "ws",
+                "security": "none"
+            }
         }
-      ],
-      "minVersion": "1.2",
-      "cipherSuites": "TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256:TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256:TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384:TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384:TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256:TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256"
-    }
-  }
+    ],
+    "outbounds": [
+        {
+            "protocol": "freedom",
+            "tag": "direct"
+        },
+        {
+            "protocol": "blackhole",
+            "tag": "block"
+        }
+    ]
 }
