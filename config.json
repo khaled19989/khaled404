@@ -1,45 +1,51 @@
 {
   "log": {
-    "loglevel": "debug"
+    "loglevel": "warning"
   },
   "inbounds": [
     {
+      "port": 8080,
       "listen": "127.0.0.1",
-      "port": "8080",
-      "protocol": "socks",
+      "protocol": "trojan",
       "settings": {
-        "udp": true
+        "clients": [
+          {
+            "id": "6ef11447-4783-47b9-9726-0a8da0dd8599",
+			"password": "test"
+          }
+        ],
+        "decryption": "none"
+      },
+      "streamSettings": {
+        "network": "grpc",
+        "grpcSettings": {
+          "serviceName": "/trojanGrpc"
+        }
       }
     }
   ],
   "outbounds": [
     {
-      "protocol": "vless",
-      "settings": {
-        "vnext": [
-          {
-            "address": "example.com",
-            "port": 443,
-            "users": [
-              {
-                "id": "90e4903e-66a4-45f7-abda-fd5d5ed7f797",
-                "encryption": "none"
-              }
-            ]
-          }
-        ]
-      },
-      "streamSettings": {
-        "network": "grpc",
-        "grpcSettings": {
-          "serviceName": "vlgrpc"
-        },
-        "security": "tls",
-        "tlsSettings": {
-          "allowInsecure": false,
-          "fingerprint": "chrome"
-        }
-      }
+      "tag": "direct",
+      "protocol": "freedom",
+      "settings": {}
+    },
+    {
+      "tag": "blocked",
+      "protocol": "blackhole",
+      "settings": {}
     }
-  ]
+  ],
+  "routing": {
+    "domainStrategy": "AsIs",
+    "rules": [
+      {
+        "type": "field",
+        "ip": [
+          "geoip:private"
+        ],
+        "outboundTag": "blocked"
+      }
+    ]
+  }
 }
