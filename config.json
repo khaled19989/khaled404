@@ -14,20 +14,25 @@
   ],
   "outbounds": [
     {
-      "protocol": "trojan",
+      "protocol": "vless",
       "settings": {
-        "servers": [
+        "vnext": [
           {
             "address": "example.com",
-            "port": 8080,
-            "password": "desdemona99"
+            "port": 443,
+            "users": [
+              {
+                "id": "90e4903e-66a4-45f7-abda-fd5d5ed7f797",
+                "encryption": "none"
+              }
+            ]
           }
         ]
       },
       "streamSettings": {
         "network": "grpc",
         "grpcSettings": {
-          "serviceName": "trgrpc"
+          "serviceName": "vlgrpc"
         },
         "security": "tls",
         "tlsSettings": {
