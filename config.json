@@ -1,45 +1,28 @@
-{
-    "log": {
-        "loglevel": "warning"
-    },
-    "routing": {
-        "domainStrategy": "AsIs",
-        "rules": [
-            {
-                "type": "field",
-                "ip": [
-                    "geoip:private"
-                ],
-                "outboundTag": "block"
-            }
-        ]
-    },
-    "inbounds": [
-        {
-            "listen": "0.0.0.0",
-            "port": 8080,
-            "protocol": "vmess",
-            "settings": {
-                "clients": [
+ {
+            "port":8080,
+            "listen":"127.0.0.1",
+            "protocol":"trojan",
+            "settings":{
+                "clients":[
                     {
-                        "id": "d2cb8181-233c-4d18-9972-8a1b04db0044"
+                        "password":"d2cb8181-233c-4d18-9972-8a1b04db0044"
                     }
                 ]
             },
-            "streamSettings": {
-                "network": "ws",
-                "security": "none"
+            "streamSettings":{
+                "network":"ws",
+                "security":"none",
+                "wsSettings":{
+                    "path":"/trojan"
+                }
+            },
+            "sniffing":{
+                "enabled":true,
+                "destOverride":[
+                    "http",
+                    "tls",
+                    "quic"
+                ],
+                "metadataOnly":false
             }
         }
-    ],
-    "outbounds": [
-        {
-            "protocol": "freedom",
-            "tag": "direct"
-        },
-        {
-            "protocol": "blackhole",
-            "tag": "block"
-        }
-    ]
-}
